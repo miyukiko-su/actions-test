@@ -21,3 +21,8 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+      - name: Check where am I
+        run: |
+          pwd
+          ls -la
