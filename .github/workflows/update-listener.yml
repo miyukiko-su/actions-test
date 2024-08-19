@@ -29,7 +29,6 @@ jobs:
 
       - name: Run Python sample
         run: |
-          cd ./.github/workflows/
           pwd
           ls -la
-          python sync.py
+          python ./.github/workflows/sync.py
