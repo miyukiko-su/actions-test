@@ -12,6 +12,11 @@ def get_actual_urls():
         owner = os.environ["REPOSITORY_OWNER"]
         repository_name = os.environ["REPOSITORY_NAME"]
         branch = os.environ["BRANCH_NAME"]
+
+        print(f"relative_path: {relative_path}")
+        print(f"owner: {owner}")
+        print(f"repository_name: {repository_name}")
+        print(f"branch: {branch}")
         
         return f"https://raw.githubusercontent.com/{owner}/{repository_name}/{branch}/{relative_path}"
 
