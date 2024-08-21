@@ -1,18 +1,26 @@
+import json
 import os
 
-print("Path at terminal when executing this file")
-print(os.getcwd() + "\n")
 
-print("This file path, relative to os.getcwd()")
-print(__file__ + "\n")
+def pretty_print(jsonable_data, title=None):
+    print((f"{title}:" if title else "") + json.dumps(jsonable_data, indent=4))
 
-print("This file full path (following symlinks)")
-full_path = os.path.realpath(__file__)
-print(full_path + "\n")
 
-print("This file directory and name")
-path, filename = os.path.split(full_path)
-print(path + ' --> ' + filename + "\n")
+def get_actual_urls():
+    def path_to_url(path):
+        relative_path = os.path.relpath(path, os.getcwd())
+        owner = os.environ["REPOSITORY_OWNER"]
+        repository_name = os.environ["REPOSITORY_NAME"]
+        branch = os.environ["BRANCH_NAME"]
+        
+        return f"https://raw.githubusercontent.com/{owner}/{repository_name}/{branch}/{relative_path}"
 
-print("This file directory only")
-print(os.path.dirname(full_path))
+    target_files = [os.path.join(root, filename) for root, _, files in os.walk(os.getcwd()) for filename in files]
+    md_files = [path_to_url(filename) for filename in target_files if filename.casefold().endswith(".md")]
+    pretty_print(md_files, title="Currently available markdown files")
+
+    return md_files
+
+
+get_actual_urls()
+  
