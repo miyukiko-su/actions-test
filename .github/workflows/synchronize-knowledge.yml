@@ -1,0 +1,20 @@
+name: synchronize-knowledge
+
+on:
+  push:
+    branches: [ "master" ]
+
+env:
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+  REPOSITORY_NAME: ${{ github.repository }}
+  REPOSITORY_OWNER: ${{ github.repository_owner }}
+  CODE_API_TOKEN: ${{ secrets.CODE_API_TOKEN }}
+  CODE_KNOWLEDGE_ID: ${{ secrets.CODE_KNOWLEDGE_ID }}
+
+jobs:
+  synchronization:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Python script to perform actual synchronization process
+        run: python ./.github/workflows/sync.py
