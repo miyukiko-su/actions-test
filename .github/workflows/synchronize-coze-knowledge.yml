@@ -1,4 +1,4 @@
-name: synchronize-knowledge
+name: synchronize-coze-knowledge
 
 on:
   push:
@@ -16,5 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run Python script to perform actual synchronization process
+
+      - name: Perform actual synchronization process
         run: python ./.github/workflows/sync.py
+
+      - name: Report details of documents currently uploaded to Coze Knowledge
+        run: python ./.github/workflows/status.py

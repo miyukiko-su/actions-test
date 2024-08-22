@@ -1,52 +1,7 @@
-import json
 import os
-import requests
 
-
-def pretty_print(jsonable_data, title=None):
-    print((f"{title}:\n" if title else "") + json.dumps(jsonable_data, indent=4))
-
-
-class CozeKnowledge:
-    def __init__(self, knowledge_id, api_token):
-        self.id = knowledge_id
-        self.base_url = "https://api.coze.com/open_api/knowledge/document"
-        self.headers = {
-            "Authorization": f"Bearer {api_token}",
-            "Content-Type": "application/json",
-            "Agw-Js-Conv": "str"
-        }
-
-    def get(self):
-        data = {"dataset_id": self.id}
-        response = self.request("list", data)
-        urls_by_id = {doc["document_id"]: doc["web_url"] for doc in response.json()["document_infos"]}
-        pretty_print(list(urls_by_id.values()), title="Current knowledge list")
-
-        return urls_by_id
-
-    def add(self, urls):
-        data = {
-            "dataset_id": self.id,
-            "document_bases": [
-                {
-                    "name": "url",
-                    "source_info": {"web_url": url, "document_source": 1},
-                    "update_rule": {"update_type": 1, "update_interval": 24 * 7}
-                } for url in urls
-            ],
-            "chunk_strategy": {"chunk_type": 0}
-        }
-        response = self.request("create", data)
-        pretty_print(urls, title="Adding new documents to knowledge")
-
-    def remove(self, documents):
-        data = {"document_ids": list(documents.keys())}
-        response = self.request("delete", data)
-        pretty_print(list(documents.values()), title="Removing documents from knowledge")
-
-    def request(self, destination, data):
-        return requests.post(f"{self.base_url}/{destination}", headers=self.headers, json=data)
+from coze import CozeKnowledge
+from utils import pretty_print
 
 
 def get_actual_urls():
