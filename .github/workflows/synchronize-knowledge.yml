@@ -8,8 +8,8 @@ env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   REPOSITORY_NAME: ${{ github.repository }}
   REPOSITORY_OWNER: ${{ github.repository_owner }}
-  CODE_API_TOKEN: ${{ secrets.CODE_API_TOKEN }}
-  CODE_KNOWLEDGE_ID: ${{ secrets.CODE_KNOWLEDGE_ID }}
+  COZE_API_TOKEN: ${{ secrets.COZE_API_TOKEN }}
+  COZE_KNOWLEDGE_ID: ${{ secrets.COZE_KNOWLEDGE_ID }}
 
 jobs:
   synchronization:
