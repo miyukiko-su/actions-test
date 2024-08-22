@@ -52,8 +52,9 @@ class CozeKnowledge:
 def get_actual_urls():
     def path_to_url(path):
         relpath = os.path.relpath(path, os.getcwd())
-        url = f"https://raw.githubusercontent.com/{os.environ["REPOSITORY_NAME"]}/{os.environ["BRANCH_NAME"]}/{relpath}"
-        return url
+        repo = os.environ["REPOSITORY_NAME"]
+        branch = os.environ["BRANCH_NAME"]
+        return f"https://raw.githubusercontent.com/{repo}/{branch}/{relpath}"
 
     targets = [os.path.join(root, filename) for root, _, files in os.walk(os.getcwd()) for filename in files]
     md_files = [path_to_url(file) for file in targets if file.casefold().endswith(".md")]
